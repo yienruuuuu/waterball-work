@@ -6,15 +6,15 @@ public class Game {
     protected final Random random = new Random();
 
     private List<Player> playersInGame;
-    private final Deck deck;
+    private Deck deck;
     private int turns;
     private final Map<Player, Player> exchangeMap; // 記錄交換手牌的玩家
     private final Map<Player, Integer> exchangeTurnsMap; // 記錄交換手牌的回合數
 
     // Initialize the game
-    public Game(Deck deck, List<Player> playerList) {
+    public Game(List<Player> playerList) {
         // 初始化牌組
-        this.deck = deck;
+        setShuffleDeck();
         // 初始化回合數為0
         turns = 0;
         // 初始化玩家列表
@@ -59,8 +59,10 @@ public class Game {
     /**
      * 洗牌
      */
-    public void shuffleDeck() {
-        deck.shuffle();
+    public void setShuffleDeck() {
+        Deck newDeck = new Deck();
+        newDeck.shuffle();
+        this.deck = newDeck;
     }
 
     /**

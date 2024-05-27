@@ -15,9 +15,9 @@ public class Main {
                 new AiPlayer("player4")
         );
         System.out.println("players:" + players);
-        Game game = new Game(new Deck(), players);
+        Game game = new Game(players);
         // 洗牌
-        game.shuffleDeck();
+        game.setShuffleDeck();
         // 發牌
         game.drawCard();
         //打印各玩家手牌

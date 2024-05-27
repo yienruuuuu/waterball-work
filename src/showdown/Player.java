@@ -48,8 +48,7 @@ public abstract class Player {
     }
 
     public boolean wantsToExchangeHands() {
-        // 隨機決定是否交換手牌，實際情況中應根據具體邏輯實現
-        return exchangeHandsTimes > 0 && random.nextBoolean();
+        return exchangeHandsTimes > 0 && choice() == 1;
     }
 
     public void addCard(Card card) {
