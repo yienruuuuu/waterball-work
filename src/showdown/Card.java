@@ -1,26 +1,24 @@
 package showdown;
 
 public class Card {
-
-    private Rank rank;
-
-    private Suit suit;
+    private final Suit suit;
+    private final Rank rank;
 
     public Card(Rank rank, Suit suit) {
-        this.rank = rank;
         this.suit = suit;
-    }
-
-    public Rank getRank() {
-        return rank;
+        this.rank = rank;
     }
 
     public Suit getSuit() {
         return suit;
     }
 
+    public Rank getRank() {
+        return rank;
+    }
+
     @Override
     public String toString() {
-        return rank + " of " + suit;
+        return rank.getSymbol() + suit.getSymbol();
     }
 }

@@ -1,14 +1,15 @@
 package showdown;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
+    protected final Random random = new Random();
+
     private List<Player> playersInGame;
     private final Deck deck;
     private int turns;
+    private final Map<Player, Player> exchangeMap; // 記錄交換手牌的玩家
+    private final Map<Player, Integer> exchangeTurnsMap; // 記錄交換手牌的回合數
 
     // Initialize the game
     public Game(Deck deck, List<Player> playerList) {
@@ -18,22 +19,42 @@ public class Game {
         turns = 0;
         // 初始化玩家列表
         addPlayer(playerList);
+        this.exchangeMap = new HashMap<>();
+        this.exchangeTurnsMap = new HashMap<>();
     }
 
     /**
      * 將玩家加入遊戲中
+     *
      * @param playerList 玩家列表
      */
     public void addPlayer(List<Player> playerList) {
         playersInGame = new ArrayList<>();
-        for (Player player : playerList) {
-            if (playersInGame.size() <= 4) {
-                playersInGame.add(player);
-            } else {
-                throw new IllegalArgumentException("The maximum number of players is 4");
-            }
-        }
+        playersInGame.addAll(playerList);
     }
+
+    public Card takesATurn(Player player) {
+        // 檢查是否需要換回手牌
+        if (exchangeMap.containsKey(player) && exchangeTurnsMap.get(player) == turns - 3) {
+            Player otherPlayer = exchangeMap.get(player);
+            player.exchangeHands(otherPlayer); // 換回手牌
+            exchangeMap.remove(player);
+            exchangeTurnsMap.remove(player);
+            System.out.println(player.getName() + " 和 " + otherPlayer.getName() + " 已經交換回了手牌。");
+        }
+
+        // 決定是否使用交換手牌特權
+        if (player.wantsToExchangeHands()) {
+            Player otherPlayer = getRandomPlayerExcluding(player);
+            player.exchangeHands(otherPlayer);
+            exchangeMap.put(player, otherPlayer);
+            exchangeTurnsMap.put(player, turns);
+            System.out.println(player.getName() + " 與 " + otherPlayer.getName() + " 交換了手牌");
+        }
+
+        // 出一張牌
+        return player.show();
+   }
 
     /**
      * 洗牌
@@ -60,9 +81,12 @@ public class Game {
         ShowDownRule rule = new ShowDownRule();
         while (turns < 13) {
             System.out.println("Turn " + (turns + 1));
-            Map<Player, Card> cardsInTurn = new HashMap<>();
+             Map<Player, Card> cardsInTurn = new HashMap<>();
             for (Player player : playersInGame) {
-                cardsInTurn.put(player, player.show());
+                Card card = takesATurn(player);
+                if (card != null) {
+                    cardsInTurn.put(player, card);
+                }
             }
             Player winner = rule.compareCards(cardsInTurn);
             if (winner != null) {
@@ -77,6 +101,7 @@ public class Game {
     public void showWinnerName() {
         Player winner = playersInGame.get(0);
         for (Player player : playersInGame) {
+            System.out.println(player.getName() + " : " + player.getPoint() + " 分");
             if (player.getPoint() > winner.getPoint()) {
                 winner = player;
             }
@@ -94,5 +119,16 @@ public class Game {
 
     public int getTurns() {
         return turns;
+    }
+
+    /**
+     * 獲取隨機另一個玩家
+     */
+    private Player getRandomPlayerExcluding(Player player) {
+        Player otherPlayer;
+        do {
+            otherPlayer = playersInGame.get(random.nextInt(playersInGame.size()));
+        } while (otherPlayer == player);
+        return otherPlayer;
     }
 }

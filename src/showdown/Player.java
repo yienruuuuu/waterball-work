@@ -1,69 +1,82 @@
 package showdown;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public abstract class Player {
-	protected final Random random = new Random();
+    protected final Random random = new Random();
 
-	protected String name;
-	protected List<Card> hands;
-	protected int point;
-	protected int exchangeHandsTimes;
+    protected String name;
+    protected List<Card> hands;
+    protected int point;
+    protected int exchangeHandsTimes;
 
-	protected Player(String name) {
-		nameHimself(name);
-		hands = new ArrayList<>();
-		point = 0;
-		exchangeHandsTimes = 1;
-	}
 
-	protected void nameHimself(String name) {
-		this.name = name;
-	}
+    protected Player(String name) {
+        nameHimself(name);
+        hands = new ArrayList<>();
+        point = 0;
+        exchangeHandsTimes = 1;
+    }
 
-	public abstract int choice();
+    protected void nameHimself(String name) {
+        this.name = name;
+    }
 
-	public void takesATurn() {
-		//TODO  Implement logic for taking a turn
-	}
+    public abstract int choice();
 
-	public void exchangeHands(Player otherPlayer) {
-		if (exchangeHandsTimes > 0) {
-			List<Card> temp = new ArrayList<>(this.hands);
-			this.hands = new ArrayList<>(otherPlayer.hands);
-			otherPlayer.hands = temp;
-			exchangeHandsTimes--;
-		}
-	}
+    /**
+     * 交換手牌
+     */
+    public void exchangeHands(Player otherPlayer) {
+        if (minusExchangeHandsTimes()) {
+            List<Card> temp = new ArrayList<>(this.hands);
+            this.hands = new ArrayList<>(otherPlayer.hands);
+            otherPlayer.hands = temp;
+        }
+    }
 
-	public Card show() {
-		if (!hands.isEmpty()) {
-			Card card = hands.remove(0);
-			System.out.println(name + " plays " + card);
-			return card;
-		}
-		return null;
-	}
+    /**
+     * (Show) 一張牌
+     */
+    public Card show() {
+        if (!hands.isEmpty()) {
+            Card card = hands.remove(0);
+            System.out.println(name + " plays " + card);
+            return card;
+        }
+        return null;
+    }
 
-	public void addCard(Card card) {
-		hands.add(card);
-	}
+    public boolean wantsToExchangeHands() {
+        // 隨機決定是否交換手牌，實際情況中應根據具體邏輯實現
+        return exchangeHandsTimes > 0 && random.nextBoolean();
+    }
 
-	public int getPoint() {
-		return point;
-	}
+    public void addCard(Card card) {
+        hands.add(card);
+    }
 
-	public void addPoint() {
-		point++;
-	}
+    public int getPoint() {
+        return point;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void addPoint() {
+        point++;
+    }
 
-	public List<Card> getHands() {
-		return hands;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public List<Card> getHands() {
+        return hands;
+    }
+
+    public boolean minusExchangeHandsTimes() {
+        if (exchangeHandsTimes > 0) {
+            exchangeHandsTimes--;
+            return true;
+        }
+        return false;
+    }
 }
