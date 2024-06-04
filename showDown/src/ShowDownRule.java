@@ -1,5 +1,3 @@
-package showdown;
-
 import java.util.Map;
 
 /**

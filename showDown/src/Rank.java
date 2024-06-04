@@ -1,5 +1,3 @@
-package showdown;
-
 public enum Rank {
     TWO("2"),
     THREE("3"),

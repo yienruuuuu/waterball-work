@@ -1,4 +1,3 @@
-package showdown;
 
 import java.util.List;
 

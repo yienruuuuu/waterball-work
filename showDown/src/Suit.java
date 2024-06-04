@@ -1,5 +1,3 @@
-package showdown;
-
 public enum Suit {
     CLUBS("♣️", 1),
     DIAMONDS("♦️", 2),

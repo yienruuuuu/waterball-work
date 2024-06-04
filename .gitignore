@@ -1,0 +1,12 @@
+.classpath
+.project
+*.iml
+/.settings/
+/target/
+*.class
+*.MF
+*.war
+/.idea/
+/.gradle/
+/build/
+/out/
