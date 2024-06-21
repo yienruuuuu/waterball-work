@@ -22,6 +22,6 @@ public class Main {
         //打印各玩家手牌
         game.getPlayersInGame().forEach(player -> System.out.println(player.getName() + ":" + player.getHands().toString()));
         // 開始遊戲
-        game.showdown();
+        game.startGame();
     }
 }

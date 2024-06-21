@@ -3,7 +3,7 @@ import java.util.*;
 public class Game {
     protected final Random random = new Random();
 
-    private List<Player> playersInGame;
+    private final List<Player> playersInGame;
     private Deck deck;
     private int turns;
     private final Map<Player, Player> exchangeMap; // 記錄交換手牌的玩家
@@ -11,6 +11,8 @@ public class Game {
 
     // Initialize the game
     public Game(List<Player> playerList) {
+        // 初始化玩家列表
+        playersInGame = new ArrayList<>();
         // 初始化牌組
         setShuffleDeck();
         // 初始化回合數為0
@@ -27,7 +29,6 @@ public class Game {
      * @param playerList 玩家列表
      */
     public void addPlayer(List<Player> playerList) {
-        playersInGame = new ArrayList<>();
         playersInGame.addAll(playerList);
     }
 
@@ -77,7 +78,7 @@ public class Game {
     /**
      * 回合結束(每位玩家各看13張牌)
      */
-    public void showdown() {
+    public void startGame() {
         ShowDownRule rule = new ShowDownRule();
         while (turns < 13) {
             System.out.println("Turn " + (turns + 1));
