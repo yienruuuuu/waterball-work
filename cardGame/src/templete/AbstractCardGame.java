@@ -24,6 +24,8 @@ public abstract class AbstractCardGame<T extends AbstractPlayer<D>, U extends Ab
         firstActionAfterGameStart();
         // 遊戲結束條件
         while (!gameEndCondition()) {
+            // 回合開始前要做的事
+            actionBeforeTurn();
             for (T player : players) {
                 System.out.println("===============" + player.getName() + "的回合===================");
                 playerTurn(player);
@@ -32,6 +34,8 @@ public abstract class AbstractCardGame<T extends AbstractPlayer<D>, U extends Ab
                     break;
                 }
             }
+            // 回合結束後要做的事
+            actionAfterTurn();
         }
         T winner = getWinner();
         System.out.println("可喜可賀, " + winner.getName() + "! 你贏啦.");
@@ -68,7 +72,7 @@ public abstract class AbstractCardGame<T extends AbstractPlayer<D>, U extends Ab
     /**
      * 遊戲開始後要做的第一件事
      */
-    protected abstract void firstActionAfterGameStart();
+    protected void firstActionAfterGameStart() {}
 
     /**
      * 遊戲結束條件
@@ -76,9 +80,20 @@ public abstract class AbstractCardGame<T extends AbstractPlayer<D>, U extends Ab
     protected abstract boolean gameEndCondition();
 
     /**
+     * 回合開始時要做的事
+     */
+    protected void actionBeforeTurn() {}
+
+    /**
      * 玩家回合
      */
     protected abstract void playerTurn(T player);
+
+
+    /**
+     * 回合結束時要做的事
+     */
+    protected void actionAfterTurn() {}
 
     /**
      * 找出勝利者

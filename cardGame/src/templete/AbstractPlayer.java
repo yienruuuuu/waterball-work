@@ -11,7 +11,7 @@ public abstract class AbstractPlayer<T extends Card> {
 
     public abstract T choice(T tableCard);
 
-    public abstract String nameHimself(String number);
+    protected abstract String nameHimself(String number);
 
 
     public String getName() {

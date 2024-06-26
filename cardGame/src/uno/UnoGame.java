@@ -21,6 +21,7 @@ public class UnoGame extends AbstractCardGame<UnoPlayer, UnoDeck, UnoCard> {
 
     @Override
     protected void firstActionAfterGameStart() {
+        //抽出牌堆第一張牌到檯面上
         tableCards.add(deck.getFirstCard());
     }
 
@@ -31,12 +32,11 @@ public class UnoGame extends AbstractCardGame<UnoPlayer, UnoDeck, UnoCard> {
 
     @Override
     protected void playerTurn(UnoPlayer player) {
-        UnoCard tableCard = getCurrentTableCard();
-        System.out.println("檯面第一張卡片是: " + tableCard);
+        System.out.println("檯面第一張卡片是: " + getCurrentTableCard());
         // 展示玩家的手牌以供選擇
         player.displayHandsForChoice();
         // 玩家選擇牌
-        UnoCard chosenCard = player.choice(tableCard);
+        UnoCard chosenCard = player.choice(getCurrentTableCard());
         // 若玩家沒有選擇出牌
         if (chosenCard == null) {
             System.out.println("無法出牌，" + player.getName() + "要抽一張牌.");
@@ -50,7 +50,7 @@ public class UnoGame extends AbstractCardGame<UnoPlayer, UnoDeck, UnoCard> {
         player.takeATurn(chosenCard);
         // 卡排放上檯面
         getTableCards().add(chosenCard);
-        System.out.println("===============回合結束===================");
+        System.out.println("===============" + player.getName() + "出牌結束===================");
     }
 
     @Override

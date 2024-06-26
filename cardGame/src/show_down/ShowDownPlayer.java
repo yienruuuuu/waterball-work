@@ -1,10 +1,12 @@
-package uno;
+package show_down;
 
 import templete.AbstractPlayer;
 
-public abstract class UnoPlayer extends AbstractPlayer<UnoCard> {
+public abstract class ShowDownPlayer extends AbstractPlayer<ShowDownCard> {
+    //玩家分數
+    private int point;
 
-    protected UnoPlayer(String number) {
+    protected ShowDownPlayer(String number) {
         super(number);
     }
 
@@ -19,11 +21,19 @@ public abstract class UnoPlayer extends AbstractPlayer<UnoCard> {
     }
 
     /**
-     * 出牌
+     * 出排
      */
-    public void takeATurn(UnoCard chosenCard) {
+    public void takeATurn(ShowDownCard chosenCard) {
         System.out.println(getName() + " 出了一張牌: " + chosenCard);
         getHands().getHandCards().remove(chosenCard);
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void addPoint() {
+        point++;
     }
 
     @Override

@@ -6,6 +6,7 @@
 *.class
 *.MF
 *.war
+*.lock
 /.idea/
 /.gradle/
 /build/
